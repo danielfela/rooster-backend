@@ -14,6 +14,7 @@ class Request extends \Phalcon\Http\Request
 
     public function __construct(){
         $this->bodyJson = $this->getJsonRawBody();
+        var_dump($this->bodyJson);
     }
     function getFromJson(string $_path) {
         $path = explode('.', $_path);

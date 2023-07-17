@@ -7,7 +7,7 @@ use Library\Api\DiscordException;
 use Library\Http\Response;
 use Phalcon\Mvc\Model\Exception;
 
-class DiscordRequestController  extends BaseController
+class DiscordRequestController extends BaseController
 {
    use DiscordControllersTrait;
 

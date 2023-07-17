@@ -82,14 +82,28 @@ if($user->isUser()) {
 }
 $app->mount($auth);
 
-//if($user->isAdmin()) {
+if($user->isAdmin()) {
     $discordRequest = new MicroCollection();
     $discordRequest->setHandler(\Controllers\LocalApiController::class, true);
     $discordRequest->setLazy(true);
     $discordRequest->setPrefix('/localApi');
     $discordRequest->post('/setServerSettings', 'setServerSettings');
     $app->mount($discordRequest);
-//}
+}
+
+$calendar = new MicroCollection();
+$calendar->setHandler(\Controllers\CalendarController::class, true);
+$calendar->setLazy(true);
+$calendar->setPrefix('/calendar');
+$calendar->get('/get/{start}/{end}', 'get');
+$calendar->get('/getEventDetails/{eventId}', 'getEventDetails');
+
+if($user->isAdmin()) {
+    $calendar->post('/set', 'set');
+    $calendar->get('/getEventsData', 'getEventsData');
+}
+
+$app->mount($calendar);
 
 /// temp only
 $datac = new MicroCollection();
