@@ -21,7 +21,7 @@ class Event extends Model
         $this->hasOne("zoneId", Zones::class, "id", ['alias' => 'zone']);
         $this->hasOne("eventTypeId", EventType::class, "id", ['alias' => 'eventType']);
         $this->hasOne("ownerId", Users::class, "id", ['alias' => 'owner']);
-        $this->hasOne("id", EventDetails::class, "evenId", ['alias' => 'eventDetails']);
+        $this->hasOne("id", EventDetails::class, "eventId", ['alias' => 'eventDetails']);
 
     }
 

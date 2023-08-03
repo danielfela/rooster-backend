@@ -14,12 +14,11 @@ class Request extends \Phalcon\Http\Request
 
     public function __construct(){
         $this->bodyJson = $this->getJsonRawBody();
-        var_dump($this->bodyJson);
     }
     function getFromJson(string $_path) {
         $path = explode('.', $_path);
         $node = $this->bodyJson;
-        while($node !== null && !empty($path)) {
+        while($node !== null && !empty($path) && $path[0] !== '') {
             $node = $this->getJsonNode($node, array_shift($path));
             if(is_scalar($node) || $node === null) {
                 break;
@@ -39,4 +38,7 @@ class Request extends \Phalcon\Http\Request
         return null;
     }
 
+    public function getRawJsonBody() {
+        return $this->bodyJson;
+    }
 }

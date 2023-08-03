@@ -17,7 +17,7 @@ class CalendarController extends BaseController
         $ret->eventType = $eventRec->eventType ? (object)$eventRec->eventType->toArray() : null;
         $ret->owner = $eventRec->owner ? (object)$eventRec->owner->toArray() : null;
         if($withDetails) {
-            $ret->details = $eventRec->eventDetails ? (object)$eventRec->eventDetails->toArray() : null;
+            $ret->details = $eventRec->eventDetails ? (object)$eventRec->eventDetails->details : null;
         }
         unset($ret->ownerId, $ret->eventTypeId, $ret->zoneId);
 
@@ -90,7 +90,36 @@ class CalendarController extends BaseController
     {
         $event = Event::findFirstById($eventId);
         $response          = Response::getBaseResponse();
-        $response->content = $this->eventToObject($event);
+        $response->content = $this->eventToObject($event, true);
         return $this->response->setJsonContent($response);
     }
+
+    public function setRooster(): \Phalcon\Http\ResponseInterface
+    {
+        $eventId = $this->request->getFromJson('eventId');
+        $details = $this->request->getFromJson('');
+
+        $eventDetails = EventDetails::findFirstByEventId($eventId);
+
+        if(!$eventDetails) {
+            $eventDetails = new EventDetails();
+            $eventDetails->eventId = $eventId;
+
+        }
+        $eventDetails->details = $details;
+
+        if($eventDetails->save())
+        {
+            return $this->response
+                ->setContent('Created')
+                ->setStatusCode(201, 'Created');
+        }
+        else
+        {
+            return $this->response
+                ->setContent(implode('<br />', $eventDetails->getMessages()))
+                ->setStatusCode(400, 'Bad Request');
+        }
+    }
+
 }

@@ -32,4 +32,8 @@ class Builds extends Model
 
         return $content;
     }
+
+    public function setContent($content) {
+        $this->content = $content;
+    }
 }

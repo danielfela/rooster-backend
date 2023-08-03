@@ -99,6 +99,7 @@ $calendar->get('/get/{start}/{end}', 'get');
 $calendar->get('/getEventDetails/{eventId}', 'getEventDetails');
 
 if($user->isAdmin()) {
+    $calendar->post('/setRooster', 'setRooster');
     $calendar->post('/set', 'set');
     $calendar->get('/getEventsData', 'getEventsData');
 }
@@ -115,6 +116,9 @@ $datac->get('/getFakeSource', 'getFakeSource');
 $datac->post('/getSource', 'getSource');
 $datac->post('/getSources', 'getSources');
 $datac->get('/clear', 'clear');
+$datac->get('/generateText/{filename}', 'generateText');
+$datac->get('/deleteLocModule/{filename}', 'deleteLocModule');
+$datac->get('/getLocSource/{lng}/{mod}', 'getLocSource');
 
 $app->mount($datac);
 
