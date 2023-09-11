@@ -5,6 +5,7 @@ namespace Library\Api;
 class Snowflake implements \Stringable
 {
     private string $snowflake;
+
     public function __construct(string $snowflake)
     {
         $this->snowflake = $snowflake;
@@ -12,7 +13,7 @@ class Snowflake implements \Stringable
 
     public function __get(string $name)
     {
-        if($name === 'snowflake') {
+        if ($name === 'snowflake') {
             return $this->snowflake;
         }
 

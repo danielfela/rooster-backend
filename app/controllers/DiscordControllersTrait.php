@@ -17,23 +17,23 @@ use Phalcon\Mvc\Model\Exception;
 trait DiscordControllersTrait
 {
     /**
-     * @throws Exception
+     * @return GuildPart[]
      * @throws DiscordException
      *
-     * @return GuildPart[]
+     * @throws Exception
      */
     public function getGuildsList(): ResultSet|array
     {
         $userId = $this->instance->getUserId();
 
-        $guilds = $this->cache->get($userId.'_guild_list');
+        $guilds = $this->cache->get($userId . '_guild_list');
 
-        if(!$guilds) {
+        if (!$guilds) {
             $request = new Discord();
 
             $guilds = new ResultSet($request->execute(Discord::apiGuildsList)->getResponse(), GuildPart::class);
 
-            $this->cache->set($userId.'_guild_list', $guilds, 600);
+            $this->cache->set($userId . '_guild_list', $guilds, 600);
         }
 
         return $guilds;

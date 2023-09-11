@@ -15,17 +15,16 @@ class LocalApiController extends \Library\MVC\Controller
         echo '+++++++++++++++++++++++++++++++++';
         $server = Server::findFirstById($this->instance->getGuildId());
 
-        if(!$server) {
+        if (!$server) {
             $server = new Server();
             $server->setSettings($this->request->getJsonRawBody());
             $state = $server->create();
-        }
-        else {
+        } else {
             $server->setSettings($this->request->getJsonRawBody());
             $state = $server->save();
         }
 
-        if(!$state) {
+        if (!$state) {
             return $this
                 ->response
                 ->setContent(join(',', $server->getMessages()))

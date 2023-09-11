@@ -12,12 +12,20 @@ class CraftersController extends \Phalcon\Mvc\Controller
      * @param $_workwearLevel int|null Wear level 0-5, 1 for each piece
      * @return void
      */
-    public function add($_userId = null, $_professionId = null, ?int $_professionLevel = 200, ?int $_trophyLevel = 9, ?int $_workwearLevel = 5) {
+    public function add(
+        $_userId = null,
+        $_professionId = null,
+        ?int $_professionLevel = 200,
+        ?int $_trophyLevel = 9,
+        ?int $_workwearLevel = 5
+    ) {
 
-        var_dump(func_get_args()); die();
+        var_dump(func_get_args());
+        die();
     }
 
-    public function showAddForm() {
+    public function showAddForm()
+    {
 
         $this->view->professions = \Professions::
 

@@ -11,8 +11,8 @@ $loader = new \Phalcon\Autoload\Loader();
 );*/
 $loader->setNamespaces([
     'Controllers' => [$config->application->controllersDir],
-    'Library' => [$config->application->libraryDir],
-    'Model' => [$config->application->modelsDir],
+    'Library'     => [$config->application->libraryDir],
+    'Model'       => [$config->application->modelsDir],
 ]);
 /*$eventsManager->attach(
     'loader:beforeCheckPath',

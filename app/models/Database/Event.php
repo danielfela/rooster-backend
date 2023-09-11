@@ -30,7 +30,8 @@ class Event extends Model
         return (bool)$this->dkp;
     }
 
-    public function setDkp(bool $dkp) {
+    public function setDkp(bool $dkp)
+    {
         $this->dkp = (int)$dkp;
     }
 }

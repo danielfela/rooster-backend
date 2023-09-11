@@ -52,12 +52,12 @@ class Acl extends Phalcon\Acl\Adapter\Memory
         /**
          * Now tie them all together
          */
-       //$acl->allow('manager', 'admin', 'users');
+        //$acl->allow('manager', 'admin', 'users');
         //$acl->allow('manager', 'reports', ['list', 'add']);
-       // $acl->allow('*', 'session', '*');
+        // $acl->allow('*', 'session', '*');
         $this->allow('*', 'auth', 'view');
 
-       // $acl->deny('guest', '*', 'view');
+        // $acl->deny('guest', '*', 'view');
     }
 
 

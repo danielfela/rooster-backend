@@ -9,6 +9,7 @@
  * @var \Library\Instance\Instance $user
  */
 $app = new \Phalcon\Mvc\Micro($di);
+
 use Controllers\IndexController as IndexController;
 use Phalcon\Mvc\Micro\Collection as MicroCollection;
 
@@ -58,7 +59,7 @@ $crafters->get('/add', 'showAddForm');
 
 $app->mount($crafters);
 
-if($user->isUser()) {
+if ($user->isUser()) {
     // Users handler
     $builds = new MicroCollection();
     $builds->setHandler(\Controllers\BuildsController::class, true);
@@ -76,13 +77,13 @@ $auth->setPrefix('/auth');
 $auth->get('/index', 'index');
 $auth->get('/getUser', 'getUser');
 $auth->get('/logout', 'logout');
-if($user->isUser()) {
+if ($user->isUser()) {
     $auth->get('/selectGuild/{guildId}', 'selectGuild');
     $auth->get('/getUserGuilds', 'getUserGuilds');
 }
 $app->mount($auth);
 
-if($user->isAdmin()) {
+if ($user->isAdmin()) {
     $discordRequest = new MicroCollection();
     $discordRequest->setHandler(\Controllers\LocalApiController::class, true);
     $discordRequest->setLazy(true);
@@ -98,7 +99,7 @@ $calendar->setPrefix('/calendar');
 $calendar->get('/get/{start}/{end}', 'get');
 $calendar->get('/getEventDetails/{eventId}', 'getEventDetails');
 
-if($user->isAdmin()) {
+if ($user->isAdmin()) {
     $calendar->post('/setRooster', 'setRooster');
     $calendar->post('/set', 'set');
     $calendar->get('/getEventsData', 'getEventsData');
@@ -119,6 +120,8 @@ $datac->get('/clear', 'clear');
 $datac->get('/generateText/{filename}', 'generateText');
 $datac->get('/deleteLocModule/{filename}', 'deleteLocModule');
 $datac->get('/getLocSource/{lng}/{mod}', 'getLocSource');
+$datac->get('/testDataTables', 'testDataTables');
+
 
 $app->mount($datac);
 
@@ -128,13 +131,12 @@ $app->finish(function () use ($app) {
 
 $app->error(function () use ($app) {
     $app->getDI()->get('instance')->toSession();
-    if(!DEV) {
+    if (!DEV) {
         $app
             ->response
             ->setStatusCode(500, 'Error')
             ->sendHeaders()
-            ->send()
-            ;
+            ->send();
     }
 
 });
@@ -149,8 +151,7 @@ $app->notFound(
             ->setStatusCode(404, 'ZZ Not Found')
             ->sendHeaders()
             ->setContent($message)
-            ->send()
-        ;
+            ->send();
     }
 );
 

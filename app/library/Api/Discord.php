@@ -51,6 +51,7 @@ class Discord extends \Library\MVC\Injectable
     {
         return $this->raw;
     }
+
     public function getResponse(): mixed
     {
         return $this->response;
@@ -78,32 +79,28 @@ class Discord extends \Library\MVC\Injectable
      */
     public function execute($url): Discord
     {
-        if(!$this->session->has('discord-request-count')) {
+        if (!$this->session->has('discord-request-count')) {
             $this->session->set('discord-request-count', 1);
-        }
-        else {
+        } else {
             $this->session->set('discord-request-count', (int)$this->session->get('discord-request-count') + 1);
         }
 
-      // var_dump(curl_getinfo($this->handler));
-        if(curl_getinfo($this->handler, CURLINFO_HTTP_CODE) !== 0){
+        if (curl_getinfo($this->handler, CURLINFO_HTTP_CODE) !== 0) {
             //second execute attempt, need to rebuild curl handler
-            //$this->handler = curl_init();
             $this->initHandler();
         }
 
-        //var_dump('execute', $url);
         //there should not be more than 3 request on session - request, refresh if unauthorized and request again after authorization
-        if((int)$this->session->get('discord-request-count') > 3) {
+        if ((int)$this->session->get('discord-request-count') > 3) {
             die('too many discord request for session');
         }
-      //  var_dump('counts', $this->session->get('discord-request-count'));
+
         curl_setopt($this->handler, CURLOPT_URL, $url);
         curl_setopt($this->handler, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
         curl_setopt($this->handler, CURLOPT_RETURNTRANSFER, true);
 
         if (!empty($this->post)) {
-            if($this->isTokenRequest($url)){
+            if ($this->isTokenRequest($url)) {
                 $postBase = [
                     'client_id'     => OAUTH2_CLIENT_ID,
                     'client_secret' => OAUTH2_CLIENT_SECRET,
@@ -117,14 +114,14 @@ class Discord extends \Library\MVC\Injectable
         }
 
         //every request to Discord Api needs token - except request for token itself
-        if(!$this->isTokenRequest($url)) {
+        if (!$this->isTokenRequest($url)) {
 
             $this->addHeaders(['Authorization' => 'Bearer ' . $this->instance->getToken()->accessToken]);
         }
 
         $headers = [];
-        foreach($this->headers as $name => $value) {
-            $headers[] = $name.': '.$value;
+        foreach ($this->headers as $name => $value) {
+            $headers[] = $name . ': ' . $value;
         }
 
         curl_setopt($this->handler, CURLOPT_HTTPHEADER, $headers);
@@ -133,18 +130,16 @@ class Discord extends \Library\MVC\Injectable
 
         $this->response = json_decode($this->raw);
 
-//var_dump([$this->response , $this->raw, curl_getinfo($this->handler), 'token' => $this->session->get('token'), 'headers' => $this->headers]);
-
         $log = new Log();
 
-        $log->type = $this->isTokenRequest($url) ? 'auth' :'request';
-        $log->ref = 'code';
-        $log->source = 'discord';
-        $log->headers = join(',', $this->headers);
-        $log->request = json_encode($this->post);
+        $log->type     = $this->isTokenRequest($url) ? 'auth' : 'request';
+        $log->ref      = 'code';
+        $log->source   = 'discord';
+        $log->headers  = join(',', $this->headers);
+        $log->request  = json_encode($this->post);
         $log->response = $this->raw;
 
-        if(curl_getinfo($this->handler, CURLINFO_HTTP_CODE) === 401 && !$this->isTokenRequest($url)) {
+        if (curl_getinfo($this->handler, CURLINFO_HTTP_CODE) === 401 && !$this->isTokenRequest($url)) {
             $refreshRequest = new Discord();
 
             $rpost = [
@@ -157,15 +152,13 @@ class Discord extends \Library\MVC\Injectable
                 ->setHeaders(['content-type' => 'application/x-www-form-urlencoded'])
                 ->execute(Discord::tokenURL)
                 ->getResponse();
-          //  var_dump('refresh', $resp);
-            if(isset($resp->access_token) && !empty($resp->access_token)) {
 
+            if (!empty($resp->access_token)) {
                 $this->instance->setToken($resp);
                 $this->instance->saveToken();
                 $log->save(); //save current log
                 return $this->execute($url); //execute again
-            }
-            else {
+            } else {
                 $this->error = 'discord server fail 2';
             }
         }
@@ -177,13 +170,13 @@ class Discord extends \Library\MVC\Injectable
         if (curl_getinfo($this->handler, CURLINFO_HTTP_CODE) !== 200) {
             $this->error = 'discord server fail 3';
         }
-        if($this->error) {
+        if ($this->error) {
             $log->state = 'err';
         }
 
         $log->save();
 
-        if($this->error) {
+        if ($this->error) {
             throw new DiscordException($this->error);
         }
 

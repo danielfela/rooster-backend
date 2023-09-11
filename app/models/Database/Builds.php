@@ -14,26 +14,28 @@ class Builds extends Model
     public string $player;
     protected string $content;
 
-   /* public function afterFetch()
+    /* public function afterFetch()
+     {
+         $content = json_decode($this->content, true, 512, JSON_OBJECT_AS_ARRAY);
+         if(!isset($content['player'])) {
+             $content['player'] = $this->player;
+         }
+
+         $this->content = $content;
+     }*/
+
+    public function getContent()
     {
         $content = json_decode($this->content, true, 512, JSON_OBJECT_AS_ARRAY);
-        if(!isset($content['player'])) {
-            $content['player'] = $this->player;
-        }
-
-        $this->content = $content;
-    }*/
-
-    public function getContent() {
-        $content = json_decode($this->content, true, 512, JSON_OBJECT_AS_ARRAY);
-        if(!isset($content['player'])) {
+        if (!isset($content['player'])) {
             $content['player'] = $this->player;
         }
 
         return $content;
     }
 
-    public function setContent($content) {
+    public function setContent($content)
+    {
         $this->content = $content;
     }
 }

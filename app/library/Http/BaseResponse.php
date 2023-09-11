@@ -13,6 +13,7 @@ class BaseResponse
 
     public function __construct()
     {
-        $this->content = new class{};
+        $this->content = new class {
+        };
     }
 }

@@ -8,42 +8,42 @@ use Phalcon\Di;
 
 class Adapter
 {
-    public int $ttl = 60*60*24;
+    public int $ttl = 60 * 60 * 24;
 
     public function getText(string $_key, $_value = 0, $_lang = 'en')
     {
         /** @var \Library\Cache\Adapter $cache */
         $cache = Di\Di::getDefault()->getShared('cache');
-        $cache->toggle('translations_'.$_lang, $this->ttl, function() use ($_lang) {
+        $cache->toggle('translations_' . $_lang, $this->ttl, function () use ($_lang) {
             var_dump('no cache');
 
             $ret = [];
-           /* foreach(Translations::findByLanguageId(Languages::findFirstByIso($_lang)->id) as $t){
-                $ret[$t->tk->key] = (object)[
-                    'text' => $t->text,
-                    'plurals' => $t->plurals,
-                ];
-            }*/
+            /* foreach(Translations::findByLanguageId(Languages::findFirstByIso($_lang)->id) as $t){
+                 $ret[$t->tk->key] = (object)[
+                     'text' => $t->text,
+                     'plurals' => $t->plurals,
+                 ];
+             }*/
 
         });
         $ret = [];
 
-        foreach(Translations::findByLanguageId(Languages::findFirstByIso($_lang)->id) as $t){
-           // var_dump($t->toArray());
-           // var_dump($t->getTk()->toArray());
+        foreach (Translations::findByLanguageId(Languages::findFirstByIso($_lang)->id) as $t) {
+            // var_dump($t->toArray());
+            // var_dump($t->getTk()->toArray());
 //var_dump($t->getL()->toArray());
             $ret[$t->tk->key] = (object)[
-                'text' => $t->text,
+                'text'    => $t->text,
                 'plurals' => $t->plurals,
             ];
         }
         var_dump($ret);
-die('oo');
+        die('oo');
         switch ($_lang) {
             case 'pl':
                 return $_options[(($_value == 1) ? 0 : ((($_value % 10 >= 2) && ($_value % 10 <= 4) && (($_value % 100 < 12) || ($_value % 100 > 14))) ? 1 : 2)) + 1];
             case 'ro':
-                return $_options[(($_value == 1) ? 0 : ((($_value == 0) || (($_value % 100 > 0) && ($_value % 100 < 20))) ? 1 : 2))+1];
+                return $_options[(($_value == 1) ? 0 : ((($_value == 0) || (($_value % 100 > 0) && ($_value % 100 < 20))) ? 1 : 2)) + 1];
             case 'cs':
                 return $_options[(($_value == 1) ? 0 : ($_value >= 2 && $_value <= 4 ? 1 : 2)) + 1];
             case 'am':
@@ -113,7 +113,7 @@ die('oo');
             case 'zu':
                 return $_options[($_value == 1) ? 1 : 2];
             case 'lt':
-                return $_options[((($_value % 10 == 1) && ($_value % 100 != 11)) ? 0 : ((($_value % 10 >= 2) && (($_value % 100 < 10) || ($_value % 100 >= 20))) ? 1 : 2))+1];
+                return $_options[((($_value % 10 == 1) && ($_value % 100 != 11)) ? 0 : ((($_value % 10 >= 2) && (($_value % 100 < 10) || ($_value % 100 >= 20))) ? 1 : 2)) + 1];
             default :
                 return 0;
         }

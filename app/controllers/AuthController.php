@@ -21,14 +21,13 @@ class AuthController extends BaseController
      */
     public function index(): \Phalcon\Http\ResponseInterface
     {
-        if($this->instance->hasToken()) {
+        if ($this->instance->hasToken()) {
             $response             = Response::getBaseResponse();
             $response->statusText = 'Previously Authorized';
             return $this->response->setJsonContent($response);
         }
 
-        if ($this->request->hasQuery('code'))
-        {
+        if ($this->request->hasQuery('code')) {
             $request = new Discord();
 
             $post = [
@@ -41,20 +40,18 @@ class AuthController extends BaseController
                     ->setPost($post)
                     ->setHeaders(['content-type' => 'application/x-www-form-urlencoded'])
                     ->execute(Discord::tokenURL);
-            }
-            catch(DiscordException) {
+            } catch (DiscordException) {
                 return $this->response->setStatusCode(503, 'Discord connection fail');
             }
 
             $tokenRespJson = $request->getResponse();
 
-            if(isset($tokenRespJson->access_token) && !empty($tokenRespJson->access_token)) {
+            if (isset($tokenRespJson->access_token) && !empty($tokenRespJson->access_token)) {
                 $this->instance->setToken($tokenRespJson);
                 $response             = Response::getBaseResponse();
                 $response->statusText = 'Authorized';
                 return $this->response->setJsonContent($response);
-            }
-            else {
+            } else {
                 return $this->response->setStatusCode(401, 'Unauthorized');
             }
 
@@ -69,8 +66,8 @@ class AuthController extends BaseController
     public function getUser(): \Phalcon\Http\ResponseInterface
     {
         if ($this->instance->hasUser()) {
-            $response             = Response::getBaseResponse();
-            $response->content    = $this->instance;
+            $response          = Response::getBaseResponse();
+            $response->content = $this->instance;
 
             return $this->response->setJsonContent($response);
         }
@@ -79,8 +76,7 @@ class AuthController extends BaseController
 
             try {
                 $this->instance->setUser($request->execute(Discord::apiURLBase)->getResponse());
-            }
-            catch(DiscordException) {
+            } catch (DiscordException) {
                 return $this->response->setStatusCode(503, 'Discord connection fail');
             }
 
@@ -94,7 +90,8 @@ class AuthController extends BaseController
         }
     }
 
-    public function destroyUser(){
+    public function destroyUser()
+    {
         $this->instance->clear();
         $this->cookies->delete(SESSION_NAME);
         $this->session->destroy();
@@ -109,8 +106,7 @@ class AuthController extends BaseController
 
             try {
                 $guilds = $this->getGuildsList();
-            }
-            catch(DiscordException) {
+            } catch (DiscordException) {
                 return $this->response->setContent('Discord connection fail')->setStatusCode(503);
             }
 
@@ -118,8 +114,7 @@ class AuthController extends BaseController
             $response->content = $guilds;
 
             return $this->response->setJsonContent($response);
-        }
-        else{
+        } else {
 
             $this->destroyUser();
             return $this->response->setContent('Authentication required - request user first')->setStatusCode(511);
@@ -137,20 +132,19 @@ class AuthController extends BaseController
 
             try {
                 $guilds = $this->getGuildsList();
-            }
-            catch(DiscordException) {
+            } catch (DiscordException) {
                 return $this->response->setContent('Discord connection fail')->setStatusCode(503);
             }
 
             $selectedGuild = null;
-            foreach($guilds as $guild) {
-                if((string)$guild->id === $guildId) {
+            foreach ($guilds as $guild) {
+                if ((string)$guild->id === $guildId) {
                     $selectedGuild = $guild;
                     break;
                 }
             }
 
-            if(!$selectedGuild){
+            if (!$selectedGuild) {
                 return $this->response->setContent('bad guild id provided')->setStatusCode(400);
             }
 
@@ -164,8 +158,7 @@ class AuthController extends BaseController
                     $requestMember->execute(sprintf(Discord::apiGuildMember, $guildId))->getResponse()
                 );
                 $this->instance->saveMembership();
-            }
-            catch(DiscordException) {
+            } catch (DiscordException) {
                 return $this->response->setStatusCode(503)->setContent('Discord connection fail');
             }
 
@@ -173,8 +166,7 @@ class AuthController extends BaseController
 
             $response = Response::getBaseResponse();
             return $this->response->setJsonContent($response);
-        }
-        else{
+        } else {
             $this->destroyUser();
             return $this->response->setContent('Authentication required - request user first')->setStatusCode(511);
         }
@@ -182,7 +174,7 @@ class AuthController extends BaseController
 
     function logout()
     {
-        if($this->instance->hasToken()) {
+        if ($this->instance->hasToken()) {
             $request = new Discord();
 
             $request

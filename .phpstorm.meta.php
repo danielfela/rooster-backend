@@ -1,4 +1,5 @@
 <?php
+
 namespace PHPSTORM_META {
 
     use Controllers\AuthController;
@@ -6,11 +7,11 @@ namespace PHPSTORM_META {
     use Library\MVC\Controller;
 
     override(\Phalcon\Di\DiInterface::get(0), map([
-        "cache" => Adapter::class,
+        "cache"    => Adapter::class,
         "instance" => \Instance::class,
     ]));
     override(\Phalcon\Di\DiInterface::getShared(0), map([
-        "cache" => Adapter::class,
+        "cache"    => Adapter::class,
         "instance" => \Instance::class,
     ]));
     override(\Phalcon\Di\DiInterface::get("cache"), map([
@@ -19,23 +20,23 @@ namespace PHPSTORM_META {
     override(\Phalcon\Di\DiInterface::getShared("cache"), map([
         "cache" => Adapter::class,
     ]));
-    override(\Phalcon\Di\DiInterface::get("cache"),Adapter::class);
-    override(\Phalcon\Di\DiInterface::getShared("cache"),Adapter::class);
+    override(\Phalcon\Di\DiInterface::get("cache"), Adapter::class);
+    override(\Phalcon\Di\DiInterface::getShared("cache"), Adapter::class);
     override(\Phalcon\Di::getShared(0), map([
         "cache" => Adapter::class,
     ]));
     override(\Phalcon\Di::get(0), map([
         "cache" => Adapter::class,
     ]));
-    override(\Phalcon\Di\DiInterface::get("instance"),\Instance::class);
-    override(\Phalcon\Di\DiInterface::getInstance(),\Instance::class);
-    override(\Phalcon\Di\DiInterface::getShared("instance"),\Instance::class);
+    override(\Phalcon\Di\DiInterface::get("instance"), \Instance::class);
+    override(\Phalcon\Di\DiInterface::getInstance(), \Instance::class);
+    override(\Phalcon\Di\DiInterface::getShared("instance"), \Instance::class);
 
-    override((new AuthController)->instance,\Instance::class);
+    override((new AuthController)->instance, \Instance::class);
     override(AuthController::class, map([
         "instance" => \Instance::class,
     ]));
-    expectedReturnValues(AuthController::instance,\Instance::class);
+    expectedReturnValues(AuthController::instance, \Instance::class);
     expectedArguments(
         AuthController::addArgument(),
         0,
@@ -54,7 +55,6 @@ namespace PHPSTORM_META {
 // Its AST serves IDE as DATA source to make advanced type inference decisions.
 //
 // https://confluence.jetbrains.com/display/PhpStorm/PhpStorm+Advanced+Metadata
-
 
 
 }

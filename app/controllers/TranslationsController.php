@@ -7,10 +7,10 @@ use Model\Database\Translations;
 
 class TranslationsController
 {
-    public function generateAction($_lang){
+    public function generateAction($_lang)
+    {
         $langId = Languages::findFirstByIso($_lang)->id;
-        foreach(Translations::findByLanguageId($langId) as $t)
-        {
+        foreach (Translations::findByLanguageId($langId) as $t) {
             return;
         }
     }

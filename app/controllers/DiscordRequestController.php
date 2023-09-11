@@ -9,7 +9,7 @@ use Phalcon\Mvc\Model\Exception;
 
 class DiscordRequestController extends BaseController
 {
-   use DiscordControllersTrait;
+    use DiscordControllersTrait;
 
     /**
      * @throws Exception
@@ -24,7 +24,7 @@ class DiscordRequestController extends BaseController
     {
         $guildId = $this->instance->getGuildId();
 
-        if(!$this->instance->hasToken()) {
+        if (!$this->instance->hasToken()) {
             return $this->response->setStatusCode(401, 'Wrong or Unknown code');
         }
 
@@ -41,7 +41,7 @@ class DiscordRequestController extends BaseController
                     return [];
                 }, 3600);*/
 
-                $guildRoles = $this->cache->toggle($guildId.'_guild_roles3', function() {
+                $guildRoles = $this->cache->toggle($guildId . '_guild_roles3', function () {
 
                     $request = new Discord();
 
@@ -50,8 +50,7 @@ class DiscordRequestController extends BaseController
 
                     //return $rolesRequest->execute($membersRequest->getGuildApiUrl('roles'))->getResponse();
                 }, 3600);
-            }
-            catch(DiscordException) {
+            } catch (DiscordException) {
                 return $this->response->setStatusCode(503, 'Discord connection fail');
             }
 
@@ -59,7 +58,7 @@ class DiscordRequestController extends BaseController
             $response->content = (object)[
                 'roles' => $guildRoles,
             ];
-die();
+            die();
             return $this->response->setJsonContent($response);
 
         } else {
@@ -67,6 +66,5 @@ die();
         }
 
 
-
-   }
+    }
 }

@@ -13,6 +13,11 @@ namespace Library\Traits;
  */
 trait Injectables
 {
-   public function getTranslate(): \Library\Translation\Adapter{}
-   public function getCache(): \Library\Cache\Adapter{}
+    public function getTranslate(): \Library\Translation\Adapter
+    {
+    }
+
+    public function getCache(): \Library\Cache\Adapter
+    {
+    }
 }

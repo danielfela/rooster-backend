@@ -1,17 +1,18 @@
 <?php
+
 namespace Model\Database;
 
 class Professions extends Model
 {
     const WEAPONSMITHING = 'Weaponsmithing';
-    const ARMORING       = 'Armoring';
-    const JEWELCRAFTING  = 'Jewelcrafting';
-    const ENGINEERING    = 'Engineering';
-    const OUTFITTING     = 'Outfitting';
-    const ALCHEMY        = 'Alchemy';
-    const COOKING        = 'Cooking';
+    const ARMORING = 'Armoring';
+    const JEWELCRAFTING = 'Jewelcrafting';
+    const ENGINEERING = 'Engineering';
+    const OUTFITTING = 'Outfitting';
+    const ALCHEMY = 'Alchemy';
+    const COOKING = 'Cooking';
 
-/**
+    /**
      * @Column(type='integer', nullable=false)
      * @Primary
      * @Identity
@@ -23,9 +24,10 @@ class Professions extends Model
      */
     public string $name;
 
-    public function getList(){
+    public function getList()
+    {
         $ret = (object)[];
-        foreach(self::find() as $rec){
+        foreach (self::find() as $rec) {
 
         }
     }

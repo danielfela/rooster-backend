@@ -9,15 +9,15 @@ class EventDetails extends Model
     public int $eventId;
     public object|string $details;
 
-/*    public function setDetails($details): void
-    {
-        $this->details = $this->getDi()->get('helper')->encode($details);
-    }
+    /*    public function setDetails($details): void
+        {
+            $this->details = $this->getDi()->get('helper')->encode($details);
+        }
 
-    public function getDetails(): object|string
-    {
-        return $this->details;
-    }*/
+        public function getDetails(): object|string
+        {
+            return $this->details;
+        }*/
 
     public function beforeSave(): void
     {

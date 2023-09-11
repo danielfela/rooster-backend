@@ -3,6 +3,7 @@
 /**
  * @var $config
  */
+
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Session\Manager;
 use Phalcon\Session\Adapter\Stream;
@@ -74,13 +75,13 @@ $di->set('tag', function () use ($config, $di) {
  */
 $di->setShared('db', function () use ($config) {
     $dbConfig = $config->database->toArray();
-    $adapter = $dbConfig['adapter'];
+    $adapter  = $dbConfig['adapter'];
     unset($dbConfig['adapter']);
 
     $dbConfig['options'] = [
-        PDO::ATTR_CASE  => PDO::CASE_NATURAL,
+        PDO::ATTR_CASE => PDO::CASE_NATURAL,
     ];
-    $class = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
+    $class               = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
 
     $connection = new $class($dbConfig);
     $connection->setNestedTransactionsWithSavepoints(true);
@@ -89,11 +90,11 @@ $di->setShared('db', function () use ($config) {
     return $connection;
 });
 
-$di->setShared('cache', function() {
+$di->setShared('cache', function () {
     return new Library\Cache\Adapter();
 });
 
-$di->setShared('translate', function() {
+$di->setShared('translate', function () {
     return new Library\Translation\Adapter();
 });
 
@@ -109,15 +110,15 @@ $di->set(
         session_name(SESSION_NAME);
         session_set_cookie_params([
             'lifetime' => $maxlifetime,
-            'path' => '/',
-            'domain' => '.daniel-fela.pl',
-            'secure' => false,
+            'path'     => '/',
+            'domain'   => '.daniel-fela.pl',
+            'secure'   => false,
             'httponly' => false,
             'samesite' => 'lax'
         ]);
 
         $session = new Manager();
-        $files = new Stream(['savePath' => '/tmp',]);
+        $files   = new Stream(['savePath' => '/tmp',]);
 
         $session
             ->setId('test')//REMOVE BEFORE SESSION RUN!!!!!!!!!!!
@@ -142,13 +143,13 @@ $di->set(
         ];
 
         $adapter = $adapterFactory->newInstance('apcu', $options);
-        $cache = new \Phalcon\Cache\Cache($adapter);
+        $cache   = new \Phalcon\Cache\Cache($adapter);
         //$cache->clear();
         return $cache;
     }
 );
 
-$di->setShared('instance', function() {
+$di->setShared('instance', function () {
     return new Library\Instance\Instance();
 });
 

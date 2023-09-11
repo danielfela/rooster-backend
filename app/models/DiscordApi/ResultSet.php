@@ -14,11 +14,11 @@ class ResultSet implements \ArrayAccess, \Traversable, \Iterator, \JsonSerializa
      */
     public function __construct($data, $className)
     {
-        if(!class_exists($className)) {
-            throw new Exception('class '.$className.' not exists');
+        if (!class_exists($className)) {
+            throw new Exception('class ' . $className . ' not exists');
         }
 
-        $this->data = array_map(function($rec) use ($className) {
+        $this->data = array_map(function ($rec) use ($className) {
             return new $className($rec);
         }, $data);
     }
