@@ -24,7 +24,6 @@ class Adapter
                      'plurals' => $t->plurals,
                  ];
              }*/
-
         });
         $ret = [];
 
@@ -33,7 +32,7 @@ class Adapter
             // var_dump($t->getTk()->toArray());
 //var_dump($t->getL()->toArray());
             $ret[$t->tk->key] = (object)[
-                'text'    => $t->text,
+                'text' => $t->text,
                 'plurals' => $t->plurals,
             ];
         }

@@ -12,10 +12,10 @@ class CalendarController extends BaseController
 {
     public function eventToObject($eventRec, $withDetails = false): object
     {
-        $ret            = (object)$eventRec->toArray();
-        $ret->zone      = $eventRec->zone ? (object)$eventRec->zone->toArray() : null;
+        $ret = (object)$eventRec->toArray();
+        $ret->zone = $eventRec->zone ? (object)$eventRec->zone->toArray() : null;
         $ret->eventType = $eventRec->eventType ? (object)$eventRec->eventType->toArray() : null;
-        $ret->owner     = $eventRec->owner ? (object)$eventRec->owner->toArray() : null;
+        $ret->owner = $eventRec->owner ? (object)$eventRec->owner->toArray() : null;
         if ($withDetails) {
             $ret->details = $eventRec->eventDetails ? (object)$eventRec->eventDetails->details : null;
         }
@@ -38,7 +38,7 @@ class CalendarController extends BaseController
             $ret[] = $this->eventToObject($r);
         }
 
-        $response          = Response::getBaseResponse();
+        $response = Response::getBaseResponse();
         $response->content = $ret;
         return $this->response->setJsonContent($response);
     }
@@ -55,14 +55,14 @@ class CalendarController extends BaseController
         }
         $date = $this->request->getFromJson('date');
 
-        $event              = new Event();
-        $event->title       = $title;
+        $event = new Event();
+        $event->title = $title;
         $event->description = $description;
-        $event->date        = $date->year . '-' . $date->month . '-' . $date->day . ' ' . $date->hour . ':' . $date->minute . ':00';
+        $event->date = $date->year . '-' . $date->month . '-' . $date->day . ' ' . $date->hour . ':' . $date->minute . ':00';
         $event->eventTypeId = (integer)$this->request->getFromJson('type');
-        $event->zoneId      = (integer)$this->request->getFromJson('zone');
-        $event->dkp         = $this->request->getFromJson('dkp');
-        $event->ownerId     = $this->instance->getUserId();
+        $event->zoneId = (integer)$this->request->getFromJson('zone');
+        $event->dkp = $this->request->getFromJson('dkp');
+        $event->ownerId = $this->instance->getUserId();
 
         if ($event->save()) {
             return $this->response
@@ -77,7 +77,7 @@ class CalendarController extends BaseController
 
     public function getEventsData(): \Phalcon\Http\ResponseInterface
     {
-        $response          = Response::getBaseResponse();
+        $response = Response::getBaseResponse();
         $response->content = (object)[
             'zones' => Zones::find()->toArray(),
             'types' => EventType::find()->toArray(),
@@ -87,8 +87,8 @@ class CalendarController extends BaseController
 
     public function getEventDetails($eventId): \Phalcon\Http\ResponseInterface
     {
-        $event             = Event::findFirstById($eventId);
-        $response          = Response::getBaseResponse();
+        $event = Event::findFirstById($eventId);
+        $response = Response::getBaseResponse();
         $response->content = $this->eventToObject($event, true);
         return $this->response->setJsonContent($response);
     }
@@ -101,9 +101,8 @@ class CalendarController extends BaseController
         $eventDetails = EventDetails::findFirstByEventId($eventId);
 
         if (!$eventDetails) {
-            $eventDetails          = new EventDetails();
+            $eventDetails = new EventDetails();
             $eventDetails->eventId = $eventId;
-
         }
         $eventDetails->details = $details;
 

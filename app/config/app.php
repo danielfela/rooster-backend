@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Starting the application
  * Assign service locator to the application
@@ -107,6 +108,19 @@ if ($user->isAdmin()) {
 
 $app->mount($calendar);
 
+$classes = new MicroCollection();
+$classes->setHandler(\Controllers\ClassController::class, true);
+$classes->setLazy(true);
+$classes->setPrefix('/class');
+$classes->get('/get', 'get');
+
+if ($user->isAdmin()) {
+    $classes->post('/set', 'set');
+    $classes->post('/create', 'create');
+}
+
+$app->mount($classes);
+
 /// temp only
 $datac = new MicroCollection();
 $datac->setHandler(\Controllers\DataCreateController::class, true);
@@ -138,7 +152,6 @@ $app->error(function () use ($app) {
             ->sendHeaders()
             ->send();
     }
-
 });
 
 $app->notFound(

@@ -28,7 +28,6 @@ class Professions extends Model
     {
         $ret = (object)[];
         foreach (self::find() as $rec) {
-
         }
     }
 }

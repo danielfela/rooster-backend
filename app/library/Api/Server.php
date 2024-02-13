@@ -65,9 +65,9 @@ class Server extends \Library\MVC\Injectable implements \JsonSerializable
     public function jsonSerialize(): object
     {
         return (object)[
-            'admins'       => $this->admins,
-            'adminRoles'   => $this->adminRoles,
-            'managers'     => $this->managers,
+            'admins' => $this->admins,
+            'adminRoles' => $this->adminRoles,
+            'managers' => $this->managers,
             'managerRoles' => $this->managerRoles,
         ];
     }

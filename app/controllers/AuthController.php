@@ -22,7 +22,7 @@ class AuthController extends BaseController
     public function index(): \Phalcon\Http\ResponseInterface
     {
         if ($this->instance->hasToken()) {
-            $response             = Response::getBaseResponse();
+            $response = Response::getBaseResponse();
             $response->statusText = 'Previously Authorized';
             return $this->response->setJsonContent($response);
         }
@@ -32,7 +32,7 @@ class AuthController extends BaseController
 
             $post = [
                 "grant_type" => "authorization_code",
-                'code'       => $this->request->getQuery('code'),
+                'code' => $this->request->getQuery('code'),
             ];
 
             try {
@@ -48,13 +48,12 @@ class AuthController extends BaseController
 
             if (isset($tokenRespJson->access_token) && !empty($tokenRespJson->access_token)) {
                 $this->instance->setToken($tokenRespJson);
-                $response             = Response::getBaseResponse();
+                $response = Response::getBaseResponse();
                 $response->statusText = 'Authorized';
                 return $this->response->setJsonContent($response);
             } else {
                 return $this->response->setStatusCode(401, 'Unauthorized');
             }
-
         } else {
             return $this->response->setStatusCode(422, 'Wrong or Unknown code');
         }
@@ -66,7 +65,7 @@ class AuthController extends BaseController
     public function getUser(): \Phalcon\Http\ResponseInterface
     {
         if ($this->instance->hasUser()) {
-            $response          = Response::getBaseResponse();
+            $response = Response::getBaseResponse();
             $response->content = $this->instance;
 
             return $this->response->setJsonContent($response);
@@ -80,17 +79,16 @@ class AuthController extends BaseController
                 return $this->response->setStatusCode(503, 'Discord connection fail');
             }
 
-            $response          = Response::getBaseResponse();
+            $response = Response::getBaseResponse();
             $response->content = $this->instance;
 
             return $this->response->setJsonContent($response);
-
         } else {
             return $this->response->setStatusCode(422, 'Wrong or Unknown code');
         }
     }
 
-    public function destroyUser()
+    public function destroyUser(): void
     {
         $this->instance->clear();
         $this->cookies->delete(SESSION_NAME);
@@ -103,19 +101,17 @@ class AuthController extends BaseController
     public function getUserGuilds(): \Phalcon\Http\ResponseInterface
     {
         if ($this->instance->hasUser()) {
-
             try {
                 $guilds = $this->getGuildsList();
             } catch (DiscordException) {
                 return $this->response->setContent('Discord connection fail')->setStatusCode(503);
             }
 
-            $response          = Response::getBaseResponse();
+            $response = Response::getBaseResponse();
             $response->content = $guilds;
 
             return $this->response->setJsonContent($response);
         } else {
-
             $this->destroyUser();
             return $this->response->setContent('Authentication required - request user first')->setStatusCode(511);
         }
@@ -123,13 +119,11 @@ class AuthController extends BaseController
 
     /**
      * @throws \ReflectionException
-     * @throws Exception
+     * @throws Exception|\Phalcon\Cache\Exception\InvalidArgumentException
      */
     public function selectGuild($guildId): ResponseInterface
     {
-
         if ($this->instance->hasUser()) {
-
             try {
                 $guilds = $this->getGuildsList();
             } catch (DiscordException) {
@@ -184,6 +178,5 @@ class AuthController extends BaseController
         }
 
         $this->destroyUser();
-
     }
 }

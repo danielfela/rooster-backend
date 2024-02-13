@@ -19,11 +19,13 @@ class Translations extends Model
             "translationId",
             TranslationsKeys::class,
             "id",
-            ['alias' => 'tk']);
+            ['alias' => 'tk']
+        );
         $this->hasOne(
             "languageId",
             Languages::class,
             "id",
-            ['alias' => 'l']);
+            ['alias' => 'l']
+        );
     }
 }

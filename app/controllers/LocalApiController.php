@@ -7,12 +7,8 @@ use Model\Database\Server;
 
 class LocalApiController extends \Library\MVC\Controller
 {
-    /**
-     * @throws \ReflectionException
-     */
     public function setServerSettings(): \Phalcon\Http\ResponseInterface
     {
-        echo '+++++++++++++++++++++++++++++++++';
         $server = Server::findFirstById($this->instance->getGuildId());
 
         if (!$server) {

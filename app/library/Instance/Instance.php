@@ -77,7 +77,6 @@ class Instance extends \Library\MVC\Injectable implements \JsonSerializable
         }
 
         if ($this->user && $this->server) {
-
             if ($this->server->hasUserInAdmins($this->user->id)) {
                 $this->updatePermissions(self::_PERMISSION_ADMIN);
             }
@@ -88,7 +87,6 @@ class Instance extends \Library\MVC\Injectable implements \JsonSerializable
         }
 
         if ($this->user && $this->server && $this->membership) {
-
             if ($this->server->hasRolesInAdmins($this->membership->roles)) {
                 $this->updatePermissions(self::_PERMISSION_ADMIN);
             }
@@ -136,7 +134,6 @@ class Instance extends \Library\MVC\Injectable implements \JsonSerializable
      */
     public function setUser($user)
     {
-
         $this->user = $user instanceof User ? $user : new User($user);
     }
 
@@ -274,14 +271,13 @@ class Instance extends \Library\MVC\Injectable implements \JsonSerializable
     public function storeUserRef()
     {
         if ($this->hasUser()) {
-
             if (!$this->hasMember() || empty($nick = $this->getMembershipNick())) {
                 $nick = $this->getUserUsername();
             }
 
             $storedUser = Users::findFirstById($this->getUserId());
             if (!$storedUser) {
-                $storedUser     = new Users();
+                $storedUser = new Users();
                 $storedUser->id = $this->getUserId();
             }
             if ($nick) {
@@ -323,7 +319,6 @@ class Instance extends \Library\MVC\Injectable implements \JsonSerializable
         }
         $this->storeUserRef();
         if ($this->user && !$this->session->has('user')) {
-
             $this->saveUser();
         }
 
@@ -338,11 +333,11 @@ class Instance extends \Library\MVC\Injectable implements \JsonSerializable
 
     public function clear($fromSession = true)
     {
-        $this->token       = null;
-        $this->user        = null;
-        $this->guild       = null;
+        $this->token = null;
+        $this->user = null;
+        $this->guild = null;
         $this->permissions = self::_PERMISSION_NONE;
-        $this->membership  = null;
+        $this->membership = null;
 
         if ($fromSession) {
             $this->session->remove('token');
@@ -358,7 +353,7 @@ class Instance extends \Library\MVC\Injectable implements \JsonSerializable
      */
     public function jsonSerialize(): object
     {
-        $ret       = (object)[];
+        $ret = (object)[];
         $ret->user = $this->user;
         if ($this->hasGuild()) {
             $ret->guild = $this->guild;

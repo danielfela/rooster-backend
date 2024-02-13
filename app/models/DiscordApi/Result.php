@@ -22,7 +22,7 @@ class Result extends \Library\MVC\Injectable implements \JsonSerializable, \Stri
 
         foreach ($response as $prop => $val) {
             if (property_exists($this, $prop)) {
-                $rp        = new \ReflectionProperty($this::class, $prop);
+                $rp = new \ReflectionProperty($this::class, $prop);
                 $propClass = $this->getObjectType($rp->getType());
                 if ($propClass) {
                     if ($propClass === 'Snowflake') {
@@ -79,7 +79,6 @@ class Result extends \Library\MVC\Injectable implements \JsonSerializable, \Stri
 
     public function __get(string $propertyName)
     {
-
         $uncamelized = Di::getDefault()->get('helper')->uncamelize($propertyName);
         if (isset($this->{$uncamelized})) {
             return $this->{$uncamelized};

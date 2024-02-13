@@ -56,7 +56,6 @@ class Acl extends Phalcon\Acl\Adapter\Memory
         //$acl->allow('manager', 'reports', ['list', 'add']);
         // $acl->allow('*', 'session', '*');
         $this->allow('*', 'auth', 'view');
-
         // $acl->deny('guest', '*', 'view');
     }
 

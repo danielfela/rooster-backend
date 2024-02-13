@@ -44,7 +44,6 @@ class ResultSet implements \ArrayAccess, \Traversable, \Iterator, \JsonSerializa
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
-
     }
 
     /**
@@ -52,7 +51,6 @@ class ResultSet implements \ArrayAccess, \Traversable, \Iterator, \JsonSerializa
      */
     public function offsetUnset(mixed $offset): void
     {
-
     }
 
     /**

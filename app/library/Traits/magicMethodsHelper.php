@@ -8,7 +8,6 @@ trait magicMethodsHelper
 {
     public function __call($name, $arguments)
     {
-
         $struct = explode('_', $this->helper->uncamelize($name));
 
         if ($struct[0] === 'get') {

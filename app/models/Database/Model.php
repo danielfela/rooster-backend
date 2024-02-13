@@ -24,7 +24,7 @@ class Model extends \Phalcon\Mvc\Model implements InjectionAwareInterface
         }
 
         $columns = $this->getModelsMetaData()->getAttributes($this);
-        $map     = [];
+        $map = [];
 
         foreach ($columns as $column) {
             $map[$column] = lcfirst($this->helper->camelize($column));

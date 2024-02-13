@@ -13,7 +13,7 @@ class Adapter extends Apcu
 
         $options = [
             'defaultSerializer' => 'php',
-            'lifetime'          => 7200,
+            'lifetime' => 7200,
         ];
 
         parent::__construct($serializerFactory, $options);
@@ -29,7 +29,7 @@ class Adapter extends Apcu
         }*/
 
         $ret = $_callable();
-        var_dump($ret);
+
         $this->set($_key, $ret, $_ttl);
 
         return $ret;

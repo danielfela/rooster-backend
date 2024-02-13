@@ -8,7 +8,9 @@ use Library\Instance\Instance;
 use Model\DiscordApi\GuildPart;
 use Model\DiscordApi\ResultSet;
 use Phalcon\Cache\Cache;
+use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Mvc\Model\Exception;
+use ReflectionException;
 
 /**
  * @property Instance instance
@@ -17,10 +19,11 @@ use Phalcon\Mvc\Model\Exception;
 trait DiscordControllersTrait
 {
     /**
-     * @return GuildPart[]
+     * @return ResultSet|array
      * @throws DiscordException
-     *
      * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
      */
     public function getGuildsList(): ResultSet|array
     {

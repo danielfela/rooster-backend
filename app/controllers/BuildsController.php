@@ -19,8 +19,7 @@ class BuildsController extends LocalApiController
      */
     public function save(): \Phalcon\Http\ResponseInterface
     {
-
-        $b          = new Builds();
+        $b = new Builds();
         $b->content = $this->request->getRawBody();
 
         if (!($player = $this->request->getFromJson('player'))) {
@@ -28,7 +27,7 @@ class BuildsController extends LocalApiController
         }
 
         $b->player = $player;
-        $b->build  = $this->request->getFromJson('build');
+        $b->build = $this->request->getFromJson('build');
         if ($b->save()) {
             return $this->response
                 ->setContent('Created')
@@ -87,12 +86,12 @@ class BuildsController extends LocalApiController
                 $res->next();
             }
 
-            $response          = Response::getBaseResponse();
+            $response = Response::getBaseResponse();
             $response->content = (object)['builds' => $ret, 'players' => Users::find()];
             return $this->response->setJsonContent($response);
         } else {
-            $response             = Response::getBaseResponse();
-            $response->status     = 404;
+            $response = Response::getBaseResponse();
+            $response->status = 404;
             $response->statusText = 'No records found';
             return $this->response
                 ->setJsonContent($response)

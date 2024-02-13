@@ -75,13 +75,13 @@ $di->set('tag', function () use ($config, $di) {
  */
 $di->setShared('db', function () use ($config) {
     $dbConfig = $config->database->toArray();
-    $adapter  = $dbConfig['adapter'];
+    $adapter = $dbConfig['adapter'];
     unset($dbConfig['adapter']);
 
     $dbConfig['options'] = [
         PDO::ATTR_CASE => PDO::CASE_NATURAL,
     ];
-    $class               = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
+    $class = 'Phalcon\Db\Adapter\Pdo\\' . $adapter;
 
     $connection = new $class($dbConfig);
     $connection->setNestedTransactionsWithSavepoints(true);
@@ -110,15 +110,15 @@ $di->set(
         session_name(SESSION_NAME);
         session_set_cookie_params([
             'lifetime' => $maxlifetime,
-            'path'     => '/',
-            'domain'   => '.daniel-fela.pl',
-            'secure'   => false,
+            'path' => '/',
+            'domain' => '.daniel-fela.pl',
+            'secure' => false,
             'httponly' => false,
             'samesite' => 'lax'
         ]);
 
         $session = new Manager();
-        $files   = new Stream(['savePath' => '/tmp',]);
+        $files = new Stream(['savePath' => '/tmp',]);
 
         $session
             ->setId('test')//REMOVE BEFORE SESSION RUN!!!!!!!!!!!
@@ -135,15 +135,15 @@ $di->set(
     'modelsCache',
     function () {
         $serializerFactory = new \Phalcon\Storage\SerializerFactory();
-        $adapterFactory    = new \Phalcon\Cache\AdapterFactory($serializerFactory);
+        $adapterFactory = new \Phalcon\Cache\AdapterFactory($serializerFactory);
 
         $options = [
             'defaultSerializer' => 'Php',
-            'lifetime'          => 7200
+            'lifetime' => 7200
         ];
 
         $adapter = $adapterFactory->newInstance('apcu', $options);
-        $cache   = new \Phalcon\Cache\Cache($adapter);
+        $cache = new \Phalcon\Cache\Cache($adapter);
         //$cache->clear();
         return $cache;
     }

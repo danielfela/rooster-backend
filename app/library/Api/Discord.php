@@ -102,9 +102,9 @@ class Discord extends \Library\MVC\Injectable
         if (!empty($this->post)) {
             if ($this->isTokenRequest($url)) {
                 $postBase = [
-                    'client_id'     => OAUTH2_CLIENT_ID,
+                    'client_id' => OAUTH2_CLIENT_ID,
                     'client_secret' => OAUTH2_CLIENT_SECRET,
-                    'redirect_uri'  => OAUTH2_REDIRECT,
+                    'redirect_uri' => OAUTH2_REDIRECT,
                 ];
             }
 
@@ -115,7 +115,6 @@ class Discord extends \Library\MVC\Injectable
 
         //every request to Discord Api needs token - except request for token itself
         if (!$this->isTokenRequest($url)) {
-
             $this->addHeaders(['Authorization' => 'Bearer ' . $this->instance->getToken()->accessToken]);
         }
 
@@ -132,18 +131,18 @@ class Discord extends \Library\MVC\Injectable
 
         $log = new Log();
 
-        $log->type     = $this->isTokenRequest($url) ? 'auth' : 'request';
-        $log->ref      = 'code';
-        $log->source   = 'discord';
-        $log->headers  = join(',', $this->headers);
-        $log->request  = json_encode($this->post);
+        $log->type = $this->isTokenRequest($url) ? 'auth' : 'request';
+        $log->ref = 'code';
+        $log->source = 'discord';
+        $log->headers = join(',', $this->headers);
+        $log->request = json_encode($this->post);
         $log->response = $this->raw;
 
         if (curl_getinfo($this->handler, CURLINFO_HTTP_CODE) === 401 && !$this->isTokenRequest($url)) {
             $refreshRequest = new Discord();
 
             $rpost = [
-                "grant_type"    => "refresh_token",
+                "grant_type" => "refresh_token",
                 'refresh_token' => $this->instance->getToken()->refreshToken,
             ];
 

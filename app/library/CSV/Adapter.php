@@ -12,7 +12,7 @@ class Adapter
     public function __construct($_file, $_mode = null, $_hasHeader = false)
     {
         $this->fileResource = fopen($_file, $_mode ?? 'a+');
-        $this->hasHeader    = $_hasHeader;
+        $this->hasHeader = $_hasHeader;
         if ($this->fileResource === false) {
             throw new Exception('Unable to open file: ' . $_file);
         }
@@ -45,8 +45,6 @@ class Adapter
         if ($this->fileResource === false) {
             return;
         }
-
-
     }
 
     public function close()

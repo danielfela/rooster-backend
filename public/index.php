@@ -1,9 +1,10 @@
 <?php
+
 const SESSION_NAME = 'super_secret_session_name';
 date_default_timezone_set('UTC');
 //define('APPLICATION_ENV', getenv('APPLICATION_ENV') ?: 'development');
 const APPLICATION_ENV = 'development';
-const DEV             = APPLICATION_ENV === 'development';
+const DEV = APPLICATION_ENV === 'development';
 if (APPLICATION_ENV === 'development') {
     ini_set('display_errors', 'On');
     ini_set('xdebug.var_display_max_depth', '5');
@@ -13,16 +14,15 @@ if (APPLICATION_ENV === 'development') {
     $debug->listen();
 }
 
-const OAUTH2_CLIENT_ID     = '1090667972403671080';
+const OAUTH2_CLIENT_ID = '1090667972403671080';
 const OAUTH2_CLIENT_SECRET = '5RKPOgq51yjNui6Mlc_qcE9PfxBYESEr';
-const OAUTH2_REDIRECT      = 'http://localhost:3000/authorize';
+const OAUTH2_REDIRECT = 'http://localhost:3000/authorize';
 
 define('APP_PATH', realpath('..') . '/app');
 
 const IS_DISCORD = true;
 /** @var \Phalcon\Di\FactoryDefault $di */
 try {
-
     /*
      * Read the configuration
      */
@@ -54,12 +54,9 @@ try {
     /**
      * @var $app
      */
-
-
     //$app->handle($_SERVER["REQUEST_URI"]);
 
 } catch (\Exception $e) {
-
     if (APPLICATION_ENV === 'development') {
         var_dump($e);
         print_r($e->getMessage() . '<br>');
@@ -70,5 +67,4 @@ try {
         ->setStatusCode(500, 'Error')
         ->sendHeaders()
         ->send();
-
 }
